@@ -1,3 +1,5 @@
+from random import randint
+
 # function to create an empty grid
 def create_grid(size):
     # take a grid size for n*n and append O in-place
@@ -49,7 +51,7 @@ def play_battleships(size, num_battleships):
             print("Shot is off-grid!")
             continue
 
-if grid[row][col] == "X":
+        if grid[row][col] == "X":
             # replace battleship 'X' to '!' when you hit it
             print("Hit!")
             grid[row][col] = "!"
@@ -66,3 +68,4 @@ grid_size = int(input("Enter the grid size: "))
 num_battleships = int(input("Enter the number of battleships: "))
 # calling functionality of battleship game
 play_battleships(grid_size, num_battleships)
+
