@@ -48,3 +48,21 @@ def play_battleships(size, num_battleships):
         if not is_valid_shot(grid, row, col):
             print("Shot is off-grid!")
             continue
+
+if grid[row][col] == "X":
+            # replace battleship 'X' to '!' when you hit it
+            print("Hit!")
+            grid[row][col] = "!"
+            num_ships -= 1
+        else:
+            print("Missed!")
+
+        display_grid(grid)
+
+    print("\nCongratulations! You destroyed all the battleships.")
+
+# starting of user end interactions
+grid_size = int(input("Enter the grid size: "))
+num_battleships = int(input("Enter the number of battleships: "))
+# calling functionality of battleship game
+play_battleships(grid_size, num_battleships)
