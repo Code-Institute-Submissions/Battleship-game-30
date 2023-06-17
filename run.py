@@ -12,3 +12,39 @@ def display_grid(grid):
     for row in grid:
         # with spaced row and column display grid
         print(" ".join(row))
+
+# function to place the battleships randomly on the grid
+def place_battleships(grid, num_battleships):
+    size = len(grid)
+    for _ in range(num_battleships):
+        # make a random position (row and column) to replace 'O' with 'X' which denotes the battleship
+        row = randint(0, size - 1)
+        col = randint(0, size - 1)
+        if grid[row][col] == "X":
+            # in this condition we check if already battleship or not
+            continue
+        grid[row][col] = "X"
+
+# function to check if a shot is on the grid
+def is_valid_shot(grid, row, col):
+    size = len(grid)
+    return 0 <= row < size and 0 <= col < size
+
+# function to play the game
+def play_battleships(size, num_battleships):
+    # create a grid of user given size
+    grid = create_grid(size)
+    # place battleships on grid
+    place_battleships(grid, num_battleships)
+    # display the grid-battleships on terminal
+    display_grid(grid)
+
+    num_ships = num_battleships
+    while num_ships > 0:
+        print("\n")
+        row = int(input("Enter the row (0 to {}): ".format(size - 1)))
+        col = int(input("Enter the column (0 to {}): ".format(size - 1)))
+
+        if not is_valid_shot(grid, row, col):
+            print("Shot is off-grid!")
+            continue
