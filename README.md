@@ -11,7 +11,7 @@
 
 <hr>
 
-Battleships is a single player game played against the computer. The game is played on grids and the goal is to defeat all enemy ships. Both player's ships are allocated randomly on the grid. To guess enemy ships, the oposition player needs to type coordinates in specific format: numbers for Columns and Rows, example: 1 - 4. Whoever hits first most ships wins!
+Battleships is a single player game played against the computer. The game is played on grids and the goal is to defeat all enemy ships. Both player's ships are allocated randomly on the grid. To guess enemy ships, the oposition player needs to type coordinates in specific format: numbers for Columns and Rows, example: 1 - 4. Whoever hits first and most ships wins!
 
 <hr>
 
@@ -108,7 +108,7 @@ Battleships is a single player game played against the computer. The game is pla
 
 > ## Credits
 
-[Learnt randit from W3schools](https://www.w3schools.com/)
+[Learnt randint from W3schools](https://www.w3schools.com/)
 
 [Code institute PEP8 error checker](https://pep8ci.herokuapp.com/)
 
