@@ -1,6 +1,6 @@
 from random import randint
 
-# function to create an empty grid
+# Function to create an empty grid
 def create_grid(size):
     # take a grid size for n*n and append O in-place
     grid = []
@@ -9,13 +9,25 @@ def create_grid(size):
         grid.append(row)
     return grid
 
-# function to display the grid
+# Function to display the grid
 def display_grid(grid):
     for row in grid:
         # with spaced row and column display grid
         print(" ".join(row))
 
-# function to place the battleships randomly on the grid
+
+def display_grids(player_grid, computer_grid):
+    # display both user's grid parallely
+    size = len(player_grid)
+
+    print("Player's Grid\t\t\tComputer's Grid")
+    for i in range(size):
+        row_str = " ".join(player_grid[i])
+        row_str += "\t\t\t"
+        row_str += " ".join(computer_grid[i])
+        print(row_str)
+
+# Function to place the battleships randomly on the grid
 def place_battleships(grid, num_battleships):
     size = len(grid)
     for _ in range(num_battleships):
@@ -27,45 +39,92 @@ def place_battleships(grid, num_battleships):
             continue
         grid[row][col] = "X"
 
-# function to check if a shot is on the grid
+# Function to check if a shot is on the grid
 def is_valid_shot(grid, row, col):
     size = len(grid)
     return 0 <= row < size and 0 <= col < size
 
-# function to play the game
-def play_battleships(size, num_battleships):
-    # create a grid of user given size
-    grid = create_grid(size)
-    # place battleships on grid
-    place_battleships(grid, num_battleships)
-    # display the grid-battleships on terminal
-    display_grid(grid)
+# Function for the computer to take a random shot
+def computer_shot(grid):
+    size = len(grid)
+    row = randint(0, size - 1)
+    col = randint(0, size - 1)
+    return row, col
 
-    num_ships = num_battleships
-    while num_ships > 0:
+# Function to play against the computer
+def play_against_computer(size, num_battleships):
+    # create 2 grids of user and computer for given size
+    player_grid = create_grid(size)
+    computer_grid = create_grid(size)
+
+    # place battleships on both grids
+    place_battleships(player_grid, num_battleships)
+    place_battleships(computer_grid, num_battleships)
+
+    # print("Player Grid")
+    # display_grid(player_grid)
+    # print("Computer Grid")
+    # display_grid(computer_grid)
+    display_grids(player_grid, computer_grid)
+
+    num_player_ships = num_battleships
+    num_computer_ships = num_battleships
+
+    while num_player_ships > 0 and num_computer_ships > 0:
         print("\n")
-        row = int(input("Enter the row (0 to {}): ".format(size - 1)))
-        col = int(input("Enter the column (0 to {}): ".format(size - 1)))
+        player_row = int(input("Enter the row (0 to {}): ".format(size - 1)))
+        player_col = int(input("Enter the column (0 to {}): ".format(size - 1)))
 
-        if not is_valid_shot(grid, row, col):
+        if not is_valid_shot(computer_grid, player_row, player_col):
             print("Shot is off-grid!")
             continue
 
-        if grid[row][col] == "X":
+        if computer_grid[player_row][player_col] == "X":
             # replace battleship 'X' to '!' when you hit it
-            print("Hit!")
-            grid[row][col] = "!"
-            num_ships -= 1
+            print("Player hit!")
+            computer_grid[player_row][player_col] = "!"
+            num_computer_ships -= 1
         else:
-            print("Missed!")
+            print("Player missed!")
 
-        display_grid(grid)
+        print("\nComputer's turn:")
+        computer_row, computer_col = computer_shot(player_grid)
 
-    print("\nCongratulations! You destroyed all the battleships.")
+        if player_grid[computer_row][computer_col] == "X":
+            # replace battleship 'X' to '!' when you hit it
+            print("Computer hit!")
+            player_grid[computer_row][computer_col] = "!"
+            num_player_ships -= 1
+        else:
+            print("Computer missed!")
+        # display for each occurance of shot
+        display_grids(player_grid, computer_grid)
+        player_score = num_battleships - num_computer_ships
+        computer_score = num_battleships - num_player_ships
+        print(f"Player's Score: {player_score}\nComputer's Score: {computer_score}")
 
-# starting of user end interactions
+    if num_player_ships == 0:
+        print("\nComputer wins! Player's fleet destroyed.")
+    else:
+        print("\nCongratulations! Player destroys the computer's fleet.")
+
+
+design = """
+                                Battleship Game
+                                     # #  ( )
+                                  ___#_#___|__
+                              _  |____________|  _
+                       _=====| | |            | | |==== _
+                 =====| |.---------------------------. | |====
+   <--------------------'   .  .  .  .  .  .  .  .   '--------------/
+     \                                                             /
+      \___________________________________________________________/
+  wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+   wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww 
+"""
+print(design)
+# call functionality
 grid_size = int(input("Enter the grid size: "))
 num_battleships = int(input("Enter the number of battleships: "))
-# calling functionality of battleship game
-play_battleships(grid_size, num_battleships)
-
+play_against_computer(grid_size, num_battleships)
